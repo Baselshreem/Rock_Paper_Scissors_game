@@ -62,7 +62,7 @@ class Player:
         while True:
             option = input(
                 "Please choose one of the options:"
-                "Please check 1-rock 2-paper 3-scissors"
+                "Please check 1-rock 2-paper 3-scissors\n"
             )
             if option in moves:
                 return option
@@ -141,8 +141,7 @@ class Game:
 
     def play_round(self):
         computer = self.p2.move()
-        print("this is a random choise =:")
-        print(self.p2.move())
+        print("this is a random choise =:", self.p2.move())
         player = self.p1.move()
 
         print(f"Player 1: {player}  Player 2: {computer}")
@@ -183,21 +182,13 @@ class Game:
 
     def play_game(self):
         print("Game start!")
-        Player1 = Player
-        Player1.description
-        Player1.print_pause
-        RandomPlayer1 = RandomPlayer()
-        RandomPlayer1.move
-        print(RandomPlayer1.move())
         for round in range(3):
             print("-----------------")
             print(f"Round {round}:")
             self.play_round()
             # self.checke()
-        print("count palyer computer")
-        print(self.countcomputer)
-        print("count palyer human")
-        print(self.countperson)
+        print("count palyer computer :", self.countcomputer)
+        print("count palyer human :", self.countperson)
         if self.countcomputer > self.countperson:
             print("the computer wine !")
             print(
@@ -207,6 +198,10 @@ class Game:
 
         else:
             print("the human wine !")
+            print(
+                f"""Final \nPlayer One Points: {self.countperson} """
+                f""" Player Two Points: {self.countcomputer}"""
+            )
 
 
 if __name__ == "__main__":
