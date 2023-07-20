@@ -206,8 +206,8 @@ class Game:
             print(f"Round {round}:")
             self.play_round()
             # self.checke()
-        print("count palyer computer :", self.countcomputer)
-        print("count palyer human :", self.countperson)
+            print("count palyer computer :", self.countcomputer)
+            print("count palyer human :", self.countperson)
         if self.countcomputer > self.countperson:
             print("the computer wine !")
             print(
@@ -224,7 +224,20 @@ class Game:
 
 
 if __name__ == "__main__":
-
-    game = Game(HumanPlayer(), RandomPlayer())
-    game.play_game()
+    print("hallo ")
+    opt = input()
+    if opt == "1":
+        game = Game(HumanPlayer(), RandomPlayer())
+        game.play_game()
+    elif opt == "2":
+        game = Game(Player(), RandomPlayer())
+        game.play_game()
+    elif opt == "3":
+        game = Game(ReflectPlayer(), RandomPlayer())
+        game.play_game()
+    elif opt == "4":
+        game = Game(CyclePlayer(), RandomPlayer())
+        game.play_game()
+    else:
+        print("no ")
     print("________________________new palayer_______________________")
