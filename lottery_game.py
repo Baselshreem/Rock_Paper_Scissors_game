@@ -153,6 +153,7 @@ class CyclePlayer(Player):
 class Game:
     countcomputer = 0
     countperson = 0
+    round = 3
 
     def __init__(self, human, random):
         self.p1 = human
@@ -201,7 +202,7 @@ class Game:
 
     def play_game(self):
         print("Game start!")
-        for round in range(3):
+        for round in range(self.round):
             print("-----------------")
             print(f"Round {round}:")
             self.play_round()
@@ -225,7 +226,11 @@ class Game:
 
 if __name__ == "__main__":
     print("hallo ")
-    opt = input()
+    opt = input(
+        "please enter the option favert run "
+        "round bettwen RandomPlayer and :"
+        "1-HumanPlayer 2-Player 3-ReflectPlayer 4-CyclePlayer:"
+    )
     if opt == "1":
         game = Game(HumanPlayer(), RandomPlayer())
         game.play_game()
