@@ -109,26 +109,45 @@ class HumanPlayer(Player):
 
 
 class ReflectPlayer(Player):
-    print("hi im class reflectplayer")
+
+    def __init__(self):
+        Player.__init__(self)
+        self.their_move = None
+
+    def learn(self, my_move, their_move):
+        print("learn random")
+        pass
 
     def move(self):
-        return game.p1.move
+        if self.their_move is None:
+            return (random.choice(moves))
+        else:
+            return self.their_move
 
 
 class CyclePlayer(Player):
     print("hi im class cycleplayer")
 
+    def __init__(self):
+        Player.__init__(self)
+        self.last_move = None
+
     def move(self):
+        move = None
+        if self.last_move is None:
+            move = Player.move()
+        else:
+            index = moves.index(self.last_move) + 1
+            if index >= len(moves):
+                index = 0
+            move = moves[index]
+        self.last_move = move
+        return move
 
-        while self.round == 0:
-            self.round += 1
-            return RandomPlayer.move(self)
-
-        try:
-            return moves[moves.index(self.move) + 1]
-
-        except IndexError:
-            return moves[0]
+    @classmethod
+    def learn(self, my_move, their_move):
+        print("learn CyclePlayer")
+        pass
 
 
 class Game:
