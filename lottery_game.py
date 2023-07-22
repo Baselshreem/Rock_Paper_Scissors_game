@@ -63,7 +63,7 @@ class Player:
             option = input(
                 "Please choose one of the options:"
                 "Please check 1-rock 2-paper 3-scissors\n"
-            )
+            ).lower()
             if option in moves:
                 return option
             print(f"Option {option} is invalid. Try again!")
@@ -226,23 +226,17 @@ class Game:
 
 if __name__ == "__main__":
     print("hallo ")
+    strategies = {
+      "1": Player(),
+      "2": RandomPlayer(),
+      "3": CyclePlayer(),
+      "4": ReflectPlayer()
+    }
     opt = input(
         "please enter the option favert run "
         "round bettwen RandomPlayer and :"
-        "1-HumanPlayer 2-Player 3-ReflectPlayer 4-CyclePlayer:"
+        "1-Player 2-RandomPlayer 3-CyclePlayer 4-ReflectPlayer:"
     )
-    if opt == "1":
-        game = Game(HumanPlayer(), RandomPlayer())
-        game.play_game()
-    elif opt == "2":
-        game = Game(Player(), RandomPlayer())
-        game.play_game()
-    elif opt == "3":
-        game = Game(ReflectPlayer(), RandomPlayer())
-        game.play_game()
-    elif opt == "4":
-        game = Game(CyclePlayer(), RandomPlayer())
-        game.play_game()
-    else:
-        print("no ")
+    game = Game(HumanPlayer(), strategies[opt])
+    game.play_game()
     print("________________________new palayer_______________________")
