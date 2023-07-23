@@ -2,7 +2,7 @@ import time
 import random
 import string
 import enum
-
+#not check a redme file
 moves = ["rock", "paper", "scissors"]
 
 
@@ -115,8 +115,7 @@ class ReflectPlayer(Player):
         self.their_move = None
 
     def learn(self, my_move, their_move):
-        print("learn random")
-        pass
+        self.their_move = their_move
 
     def move(self):
         if self.their_move is None:
