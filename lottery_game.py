@@ -2,7 +2,7 @@ import time
 import random
 import string
 import enum
-#not check a redme file
+
 moves = ["rock", "paper", "scissors"]
 
 
@@ -18,31 +18,27 @@ class Color(enum.Enum):
     underline = "\033[4m"
     black = "\033[0m"
 
-    @classmethod
     def get_color(cls):
         return random.choice([color.value for color in cls])
 
 
 class Player:
-    @classmethod
+
     def move(self):
         return "rock"
 
-    @classmethod
     def learn(self, my_move, their_move):
         print("learn player")
         pass
 
-    @classmethod
-    def beats(one, two):
+    def beats(self, one, two):
         return (
             (one == "rock" and two == "scissors")
             or (one == "scissors" and two == "paper")
             or (one == "paper" and two == "rock")
         )
 
-    @classmethod
-    def typewriter_simulator(message):
+    def typewriter_simulator(self, message):
         for char in message:
             print(char, end="")
             if char in string.punctuation:
@@ -51,13 +47,11 @@ class Player:
 
     print("")
 
-    @classmethod
-    def print_pause(statment_printer, delye=2):
+    def print_pause(self, statment_printer, delye=2):
         # this is a function to puse a masge
         print(Color.get_color() + statment_printer)
         time.sleep(delye)
 
-    @classmethod
     def input_choise(self):
         while True:
             option = input(
@@ -68,7 +62,6 @@ class Player:
                 return option
             print(f"Option {option} is invalid. Try again!")
 
-    @classmethod
     def description(self):
         # this is a func use a puse a masge to description player
         self.print_pause(
@@ -89,9 +82,7 @@ class RandomPlayer(Player):
     print("ff")
     print("hi im class randomplayer")
 
-    @classmethod
     def learn(self, my_move, their_move):
-        print("learn random")
         pass
 
     def move(self):
@@ -134,7 +125,7 @@ class CyclePlayer(Player):
     def move(self):
         move = None
         if self.last_move is None:
-            move = Player.move()
+            return random.choice(moves)
         else:
             index = moves.index(self.last_move) + 1
             if index >= len(moves):
@@ -143,10 +134,9 @@ class CyclePlayer(Player):
         self.last_move = move
         return move
 
-    @classmethod
     def learn(self, my_move, their_move):
         print("learn CyclePlayer")
-        pass
+        self.last_move = my_move
 
 
 class Game:
@@ -157,6 +147,9 @@ class Game:
     def __init__(self, human, random):
         self.p1 = human
         self.p2 = random
+        self.count_wins = 0
+        self.count_losses = 0
+        self.count_ties = 0
 
     def play_round(self):
         computer = self.p2.move()
@@ -166,38 +159,20 @@ class Game:
         print(f"Player 1: {player}  Player 2: {computer}")
         self.p1.learn(player, computer)
         self.p2.learn(computer, player)
-        self.checke(player, computer)
 
-    def checke(self, player, computer):
-
-        print("basil checker")
-
-        if player == computer:
-            print("Tie!")
-        elif player == "rock":
-            if computer == "paper":
-                print("You lose!", computer, "covers", player)
-                self.countcomputer += 1
-
-            else:
-                print("You win!", player, "smashes", computer)
-                self.countperson += 1
-        elif player == "paper":
-            if computer == "scissors":
-                print("You lose!", computer, "cut", player)
-                self.countcomputer += 1
-            else:
-                print("You win!", player, "covers", computer)
-                self.countperson += 1
-        elif player == "scissors":
-            if computer == "rock":
-                print("You lose...", computer, "smashes", player)
-                self.countcomputer += 1
-            else:
-                print("You win!", player, "cut", computer)
-                self.countperson += 1
+        if self.p1.beats(computer, player):
+            self.count_wins += 1
+            print(f"wins:{self.count_wins}")
+        elif computer == player:
+            self.count_ties += 1
+            print(f"ties:{self.count_ties}")
+        elif self.p2.beats(player, computer):
+            self.count_losses += 1
+            print(f"losses:{self.count_losses}")
         else:
-            print("That's not a valid play. Check your spelling!")
+            print("tada mistake")
+        print(f"Player One Score: {self.count_wins}"
+              f"Player Two Score: {self.count_losses}\n")
 
     def play_game(self):
         print("Game start!")
@@ -206,20 +181,20 @@ class Game:
             print(f"Round {round}:")
             self.play_round()
             # self.checke()
-            print("count palyer computer :", self.countcomputer)
-            print("count palyer human :", self.countperson)
-        if self.countcomputer > self.countperson:
+            print("count palyer computer :", self.count_wins)
+            print("count palyer human :", self.count_losses)
+        if self.count_wins > self.count_losses:
             print("the computer wine !")
             print(
-                f"""Final \nPlayer One Points: {self.countperson} """
-                f""" Player Two Points: {self.countcomputer}"""
+                f"""Final \nPlayer One Points: {self.count_wins} """
+                f""" Player Two Points: {self.count_losses}"""
             )
 
         else:
             print("the human wine !")
             print(
-                f"""Final \nPlayer One Points: {self.countperson} """
-                f""" Player Two Points: {self.countcomputer}"""
+                f"""Final \nPlayer One Points: {self.count_losses} """
+                f""" Player Two Points: {self.count_wins}"""
             )
 
 
@@ -231,11 +206,18 @@ if __name__ == "__main__":
       "3": CyclePlayer(),
       "4": ReflectPlayer()
     }
-    opt = input(
-        "please enter the option favert run "
-        "round bettwen RandomPlayer and :"
-        "1-Player 2-RandomPlayer 3-CyclePlayer 4-ReflectPlayer:"
-    )
-    game = Game(HumanPlayer(), strategies[opt])
-    game.play_game()
-    print("________________________new palayer_______________________")
+    while True:
+        opt = input("please enter the option favert run"
+                    "round bettwen RandomPlayer and :"
+                    "1-Player 2-RandomPlayer 3-CyclePlayer 4-ReflectPlayer:"
+                    "if need a exit a program press a number 9:\n"
+                    )
+        if opt in strategies:
+            game = Game(HumanPlayer(), strategies[opt])
+            game.play_game()
+            print("________________________new palayer_______________________")
+        elif opt == "9":
+            print("exit a program")
+            exit(0)
+        else:
+            print("please enter viled a choise")
